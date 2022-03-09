@@ -2,6 +2,7 @@ package practica_1;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.TreeSet;
 
@@ -9,14 +10,22 @@ public class Players {
 
     private TreeSet<Player> players = new TreeSet<>();
 
+    private ArrayList<Player> nba;
+    String route = System.getProperty("user.dir") + System.getProperty("file.separator") + "assets"
+            + System.getProperty("file.separator");
+
     public TreeSet<Player> getPlayers() {
         return this.players;
     }
 
+    public static int number = 10;
+
     public Players() {
-        String route = System.getProperty("user.dir") + System.getProperty("file.separator") + "assets"
-                + System.getProperty("file.separator")
-                + "NbaStats.csv";
+        this("NbaStats.csv");
+    }
+
+    public Players(String filename) {
+        this.route += filename;
         File f = new File(route);
         Scanner sc;
         try {
@@ -49,6 +58,39 @@ public class Players {
         }
         score = (int) ((pts * percent) / 100);
         return score;
+    }
+
+    public ArrayList<Player> getBestPlayers() {
+        return getBestPlayers(number);
+    }
+
+    public ArrayList<Player> getBestPlayers(int n) {
+        if (this.players.size() == 0) {
+            return null;
+        }
+        nba = new ArrayList<>(this.players);
+        ArrayList<Player> aux = new ArrayList<>();
+        ArrayList<Player> res = this.getBestPlayers(aux, 0, nba.size() - 1, n);
+        return res;
+
+    }
+
+    private ArrayList<Player> getBestPlayers(ArrayList<Player> list, int begin, int end, int number) {
+        if (begin == end) { // Caso base
+            list.add(this.nba.get(begin));
+            return list;
+        }
+        int middle = (begin + end) / 2;
+
+        // Juntar
+        list.addAll(this.getBestPlayers(list, begin, middle, number));
+        list.addAll(this.getBestPlayers(list, middle + 1, end, number));
+
+        while (list.size() > number) {
+            list.remove(list.size() - 1);
+        }
+
+        return list;
     }
 
 }

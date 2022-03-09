@@ -43,4 +43,13 @@ public class AppTest {
         assertEquals("La puntuación no es la misma, debería ser " + avg + " y es " + player.getScore(), avg,
                 player.getScore());
     }
+
+    /**
+     * Test puntuaciones
+     */
+    @Test
+    public void testMaxScore() {
+        Players data = new Players("test.csv");
+
+    }
 }
