@@ -73,18 +73,23 @@ public class Player implements Comparable<Player> {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder(playerName + " played in ");
-        for (String team : this.teams) {
-            sb.append(team + ", ");
-        }
-        sb.replace(0, sb.length() - 2, " in these positions: ");
-
-        for (String position : this.positions) {
-            sb.append(position + ", ");
-        }
-
-        return sb.replace(0, sb.length() - 2, ", obtaining in his carreer a total of " + this.score + " points.")
-                .toString();
-
+        // Beautiful one
+        /*
+         * StringBuilder sb = new StringBuilder(playerName + " played in ");
+         * for (String team : this.teams) {
+         * sb.append(team + ", ");
+         * }
+         * sb.replace(0, sb.length() - 2, " in these positions: ");
+         * 
+         * for (String position : this.positions) {
+         * sb.append(position + ", ");
+         * }
+         * 
+         * return sb.replace(0, sb.length() - 2,
+         * ", obtaining in his carreer a total of " + this.score + " points.")
+         * .toString();
+         */
+        // Useful one
+        return this.playerName + ": " + this.score;
     }
 }

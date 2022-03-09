@@ -3,6 +3,7 @@ package practica_1;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.TreeSet;
 
 import org.junit.Test;
@@ -48,8 +49,12 @@ public class AppTest {
      * Test puntuaciones
      */
     @Test
-    public void testMaxScore() {
-        Players data = new Players("test.csv");
+    public void testBestPlayers() {
+        Players pl = new Players();
+        ArrayList<Player> aux = new ArrayList<>(pl.getPlayers());
+
+        aux.sort(new PlayerComparator());
+        assertEquals(aux.get(aux.size() - 1), pl.getBestPlayers().last());
 
     }
 }

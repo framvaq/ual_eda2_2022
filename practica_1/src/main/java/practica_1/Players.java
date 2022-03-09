@@ -60,22 +60,22 @@ public class Players {
         return score;
     }
 
-    public ArrayList<Player> getBestPlayers() {
+    public TreeSet<Player> getBestPlayers() {
         return getBestPlayers(number);
     }
 
-    public ArrayList<Player> getBestPlayers(int n) {
+    public TreeSet<Player> getBestPlayers(int n) {
         if (this.players.size() == 0) {
             return null;
         }
         nba = new ArrayList<>(this.players);
-        ArrayList<Player> aux = new ArrayList<>();
-        ArrayList<Player> res = this.getBestPlayers(aux, 0, nba.size() - 1, n);
+        TreeSet<Player> aux = new TreeSet<>(new PlayerComparator());
+        TreeSet<Player> res = this.getBestPlayers(aux, 0, nba.size() - 1, n);
         return res;
 
     }
 
-    private ArrayList<Player> getBestPlayers(ArrayList<Player> list, int begin, int end, int number) {
+    private TreeSet<Player> getBestPlayers(TreeSet<Player> list, int begin, int end, int number) {
         if (begin == end) { // Caso base
             list.add(this.nba.get(begin));
             return list;
@@ -87,7 +87,7 @@ public class Players {
         list.addAll(this.getBestPlayers(list, middle + 1, end, number));
 
         while (list.size() > number) {
-            list.remove(list.size() - 1);
+            list.remove(list.first());
         }
 
         return list;
