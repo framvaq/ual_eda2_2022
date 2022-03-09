@@ -1,4 +1,4 @@
-package practica_1.version1;
+package practica_1;
 
 /**
  * Hello world!
