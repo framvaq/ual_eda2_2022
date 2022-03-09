@@ -8,7 +8,11 @@ import java.util.TreeSet;
 
 import org.junit.Test;
 
-public class AppTest {
+import practica_1.version1.Player;
+import practica_1.version1.PlayerComparator;
+import practica_1.version1.Players;
+
+public class TestVersion1 {
     /**
      * Datos de entrada
      */
