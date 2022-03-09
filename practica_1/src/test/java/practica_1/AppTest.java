@@ -25,21 +25,22 @@ public class AppTest {
         team.add("TOT");
         team.add("DAL");
         team.add("MIA");
-        assertTrue(team.equals(player.getTeams()));
+        assertTrue("Los equipos no son iguales", team.equals(player.getTeams()));
         TreeSet<String> pos = new TreeSet<>();
         pos.add("PF");
         pos.add("SF");
-        assertTrue(pos.equals(player.getPositions()));
+        assertTrue("Las posiciones no son iguales", pos.equals(player.getPositions()));
 
         int avg = 0;
-        int values[] = { 8035, 8420, 8807, 9242, 9688, 10166, 10617, 11060, 11529,
-                11999, 12477, 13034, 13035, 13036, 13600, 14139, 14648, 15148 };
-        for (int val : values) {
-            avg += val;
-            avg /= 2;
+        double percent[] = { 53.9, 53.8, 50.3, 52.9, 47.8, 47.6, 47.6, 53.7, 50.2, 50.4, 48.4, 48.3, 47.7, 48.6, 45.3,
+                42.2, 44.7, 44.4 };
+        int pts[] = { 521, 852, 937, 1088, 1061, 750, 1116, 1051, 1204, 916, 612, 597, 153, 444, 600, 246, 413, 367 };
+        int score;
+        for (int i = 0; i < pts.length; i++) {
+            score = (int) ((pts[i] * percent[i]) / 100);
+            avg = (avg + score) / 2;
         }
-
-        assertEquals(avg, player.getScore());
-
+        assertEquals("La puntuación no es la misma, debería ser " + avg + " y es " + player.getScore(), avg,
+                player.getScore());
     }
 }

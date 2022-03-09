@@ -25,9 +25,10 @@ public class Players {
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
                 String[] items = line.split(";");
-                Player first = new Player(items[2], items[6], items[4], Integer.parseInt(items[0]));
-                if (!(this.players.add(first))) { // If not added, there is a player with that name
-                    notFirst(players.ceiling(first), items);
+                int score = calculateScore(items);
+                Player p = new Player(items[2], items[6], items[4], score);
+                if (!(this.players.add(p))) { // If not added, there is a player with that name
+                    players.ceiling(p).update(items[6], items[4], score);
                 }
             }
             sc.close();
@@ -36,11 +37,18 @@ public class Players {
         }
     }
 
-    // playerName=2, team=6, position=4, score=0)
-    private void notFirst(Player player, String[] data) {
-        player.addTeam(data[6]);
-        player.addPosition(data[4]);
-        int newScore = (int) (player.getScore() + Integer.parseInt(data[0])) / 2;
-        player.setScore(newScore);
+    private int calculateScore(String[] items) {
+        int score = 0;
+        int pts = Integer.parseInt(items[8]);
+        String pcntStr = items[7].replace(",", ".");
+        double percent;
+        try {
+            percent = Double.parseDouble(pcntStr);
+        } catch (NumberFormatException nfe) {
+            percent = 0;
+        }
+        score = (int) ((pts * percent) / 100);
+        return score;
     }
+
 }

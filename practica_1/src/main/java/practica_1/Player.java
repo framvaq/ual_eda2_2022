@@ -65,10 +65,26 @@ public class Player implements Comparable<Player> {
         this.positions.add(position);
     }
 
+    public void update(String team, String position, int score) {
+        this.teams.add(team);
+        this.positions.add(position);
+        this.score = (this.score + score) / 2;
+    }
+
     @Override
     public String toString() {
-        // 0=playerName, 1=team, 2=position, 3=score)
-        return playerName + ";[[" + teams + "]];[[" + positions + "]];" + score;
+        StringBuilder sb = new StringBuilder(playerName + " played in ");
+        for (String team : this.teams) {
+            sb.append(team + ", ");
+        }
+        sb.replace(0, sb.length() - 2, " in these positions: ");
+
+        for (String position : this.positions) {
+            sb.append(position + ", ");
+        }
+
+        return sb.replace(0, sb.length() - 2, ", obtaining in his carreer a total of " + this.score + " points.")
+                .toString();
 
     }
 }
