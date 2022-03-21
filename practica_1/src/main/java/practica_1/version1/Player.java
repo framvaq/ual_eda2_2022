@@ -7,6 +7,7 @@ public class Player implements Comparable<Player> {
     private TreeSet<String> teams;
     private TreeSet<String> positions;
     private int score;
+    private int count = 1;
 
     public Player(String playerName, String team, String position, int score) {
         this.playerName = playerName;
@@ -66,9 +67,10 @@ public class Player implements Comparable<Player> {
     }
 
     public void update(String team, String position, int score) {
+        // this.count++;
         this.teams.add(team);
         this.positions.add(position);
-        this.score = (this.score + score) / 2;
+        this.score = (this.score + score) / this.teams.size();
     }
 
     @Override
