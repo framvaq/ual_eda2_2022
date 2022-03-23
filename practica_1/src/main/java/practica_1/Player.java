@@ -6,23 +6,26 @@ public class Player implements Comparable<Player> {
     private String playerName;
     private ArrayList<String> teams;
     private ArrayList<String> positions;
-    private int score;
-    // private int count = 1;
+    private int avgScore;
+    private int totalScore;
+    // private int count = 1; // it's the same as the size of temas or positions
 
-    public Player(String playerName, String team, String position, int score) {
+    public Player(String playerName, String team, String position, int newScore) {
         this.playerName = playerName;
         this.teams = new ArrayList<String>();
         this.teams.add(team);
         this.positions = new ArrayList<String>();
         this.positions.add(position);
-        this.score = score;
+        this.totalScore = newScore;
+        this.avgScore = newScore;
     }
 
-    public void update(String team, String position, int score) {
+    public void update(String team, String position, int newScore) {
         // this.count++;
         this.teams.add(team);
         this.positions.add(position);
-        this.score = (this.score + score) / this.teams.size();
+        this.totalScore += newScore;
+        this.avgScore = this.totalScore / this.teams.size();
     }
 
     public String getPlayerName() {
@@ -50,11 +53,11 @@ public class Player implements Comparable<Player> {
     }
 
     public int getScore() {
-        return this.score;
+        return this.avgScore;
     }
 
     public void setScore(int score) {
-        this.score = score;
+        this.avgScore = score;
     }
 
     @Override
@@ -82,11 +85,11 @@ public class Player implements Comparable<Player> {
          * .toString();
          */
         // Useful one
-        return this.playerName + ": " + this.score;
+        return this.playerName + ": " + this.avgScore;
     }
 
     @Override
     public int compareTo(Player o) {
-        return Integer.compare(o.score, this.score);
+        return -Integer.compare(this.avgScore, o.avgScore);
     }
 }

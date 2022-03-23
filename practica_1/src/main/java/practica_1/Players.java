@@ -3,6 +3,7 @@ package practica_1;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class Players {
@@ -16,8 +17,19 @@ public class Players {
 
     public static void main(String[] args) {
         readFile();
-        bestPlayers = getBestPlayers();
-        System.out.println(bestPlayers);
+
+        int reps = 100;
+        long begin, end;
+        double total = 0;
+        int j;
+        for (j = 0; j < reps; j++) {
+            begin = System.nanoTime();
+            getBestPlayers();
+            end = System.nanoTime();
+            total += (end - begin);
+        }
+
+        System.out.println("Ha tardado " + (total / j) / 1000000 + "ms");
     }
 
     public static void readFile() {
@@ -64,7 +76,7 @@ public class Players {
         } catch (NumberFormatException nfe) {
             percent = 0;
         }
-        score = (int) (pts * percent);
+        score = (int) (pts * percent / 100);
         return score;
     }
 
@@ -73,7 +85,6 @@ public class Players {
     }
 
     public static ArrayList<Player> getBestPlayers(int n) {
-
         if (allPlayers.size() == 0) {
             return null;
         }
@@ -84,7 +95,7 @@ public class Players {
     }
 
     private static void getBestPlayers(int begin, int end, int number) {
-        if (begin == end) { // Caso base
+        if (begin >= end) { // Caso base
             bestPlayers.add(allPlayers.get(begin));
             return;
         }
@@ -95,11 +106,46 @@ public class Players {
         getBestPlayers(middle + 1, end, number);
 
         // Ordenar y eliminar los que sobran
-        if (bestPlayers.size() > number) {
-            bestPlayers.sort(null);
-        }
+        bestPlayers.sort(null);
         while (bestPlayers.size() > number) {
             bestPlayers.remove(bestPlayers.size() - 1);
         }
+    }
+
+    public static ArrayList<Player> getPlayersByComparator(int begin, int end, Comparator<Player> cmp) {
+        ArrayList<Player> players = new ArrayList<Player>(allPlayers.size());
+        if (cmp == null) {
+            cmp = new PlayerComparator();
+        }
+        if (begin >= end) { // Caso base
+            players.add(allPlayers.get(begin));
+        } else { // Dividir
+            int half = (begin + end) / 2;
+            ArrayList<Player> left = getPlayersByComparator(begin, half, cmp);
+            ArrayList<Player> right = getPlayersByComparator(half + 1, end, cmp);
+
+            int i = 0;
+            int j = 0;
+            // Recomponer
+            while (i <= left.size() - 1 && j <= right.size() - 1) {
+                if (cmp.compare(left.get(i), right.get(j)) <= 0) {
+                    players.add(left.get(i));
+                    i++;
+                } else {
+                    players.add(right.get(j));
+                    j++;
+                }
+            }
+            while (i <= left.size() - 1) {
+                players.add(left.get(i));
+                i++;
+            }
+            while (j <= right.size() - 1) {
+                players.add(right.get(j));
+                j++;
+            }
+
+        }
+        return players;
     }
 }
