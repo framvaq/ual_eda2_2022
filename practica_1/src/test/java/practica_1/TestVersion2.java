@@ -42,7 +42,8 @@ public class TestVersion2 {
     public void testPlayersComparator() {
         Players.readFile();
         ArrayList<Player> bestPlayers = Players.getBestPlayers(Players.allPlayers.size() - 1);
-        ArrayList<Player> playersNullcmp = Players.getPlayersByComparator(0, Players.allPlayers.size() - 1, null);
+        ArrayList<Player> playersNullcmp = Players.getPlayersByComparator(0, Players.allPlayers.size() - 1,
+                Players.allPlayers.size() - 1, null);
 
         for (int i = 0; i < Players.allPlayers.size() - 1; i++) {
             assertEquals(bestPlayers.get(i), playersNullcmp.get(i));

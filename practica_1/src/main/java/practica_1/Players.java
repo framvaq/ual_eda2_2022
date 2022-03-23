@@ -18,18 +18,15 @@ public class Players {
     public static void main(String[] args) {
         readFile();
 
-        int reps = 100;
         long begin, end;
         double total = 0;
-        int j;
-        for (j = 0; j < reps; j++) {
-            begin = System.nanoTime();
-            getBestPlayers();
-            end = System.nanoTime();
-            total += (end - begin);
-        }
 
-        System.out.println("Ha tardado " + (total / j) / 1000000 + "ms");
+        begin = System.nanoTime();
+        getBestPlayers();
+        end = System.nanoTime();
+        total += (end - begin);
+
+        System.out.println("Ha tardado " + (total) / 1000000 + "ms");
     }
 
     public static void readFile() {
@@ -101,18 +98,19 @@ public class Players {
         // Dividir
         int middle = (end + begin) / 2;
 
+        // Componer
         getBestPlayers(begin, middle, number);
         getBestPlayers(middle + 1, end, number);
 
-        // Ordenar y eliminar los que sobran
+        // Ordenar y eliminar los que sobran (mejora)
         bestPlayers.sort(null);
         while (bestPlayers.size() > number) {
             bestPlayers.remove(bestPlayers.size() - 1);
         }
     }
 
-    public static ArrayList<Player> getPlayersByComparator(int begin, int end, Comparator<Player> cmp) {
-        ArrayList<Player> players = new ArrayList<Player>(allPlayers.size());
+    public static ArrayList<Player> getPlayersByComparator(int begin, int end, int numPlayers, Comparator<Player> cmp) {
+        ArrayList<Player> players = new ArrayList<Player>();
         if (cmp == null) { // por defecto se ordena por puntuación
             cmp = new PlayerComparator();
         }
@@ -120,13 +118,13 @@ public class Players {
             players.add(allPlayers.get(begin));
         } else { // Dividir
             int half = (begin + end) / 2;
-            ArrayList<Player> left = getPlayersByComparator(begin, half, cmp);
-            ArrayList<Player> right = getPlayersByComparator(half + 1, end, cmp);
+            ArrayList<Player> left = getPlayersByComparator(begin, half, numPlayers, cmp);
+            ArrayList<Player> right = getPlayersByComparator(half + 1, end, numPlayers, cmp);
 
             int i = 0;
             int j = 0;
             // Recomponer
-            while (i <= left.size() - 1 && j <= right.size() - 1) {
+            while (players.size() < numPlayers && i <= left.size() - 1 && j <= right.size() - 1) {
                 if (cmp.compare(left.get(i), right.get(j)) <= 0) {
                     players.add(left.get(i));
                     i++;
@@ -135,11 +133,11 @@ public class Players {
                     j++;
                 }
             }
-            while (i <= left.size() - 1) {
+            while (players.size() < numPlayers && i <= left.size() - 1) {
                 players.add(left.get(i));
                 i++;
             }
-            while (j <= right.size() - 1) {
+            while (players.size() < numPlayers && j <= right.size() - 1) {
                 players.add(right.get(j));
                 j++;
             }

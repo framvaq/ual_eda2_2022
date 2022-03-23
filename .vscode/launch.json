@@ -6,6 +6,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Launch Players",
+      "request": "launch",
+      "mainClass": "practica_1.Players",
+      "projectName": "practica_1"
+    },
+    {
+      "type": "java",
       "name": "Launch Current File",
       "request": "launch",
       "mainClass": "${file}"
