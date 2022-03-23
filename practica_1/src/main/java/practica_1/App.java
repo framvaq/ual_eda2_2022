@@ -40,7 +40,7 @@ public class App {
 
         p.sort(null);
         if (p.size() > num) {
-            p.subList(0, num + 1);
+            p.remove(p.size() - 1);
         }
 
         return p;

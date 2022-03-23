@@ -61,6 +61,11 @@ public class Player implements Comparable<Player> {
     }
 
     @Override
+    public int compareTo(Player o) {
+        return -Integer.compare(this.avgScore, o.avgScore);
+    }
+
+    @Override
     public boolean equals(Object obj) {
         Player p = (Player) obj;
         return this.playerName.equals(p.playerName);
@@ -86,10 +91,5 @@ public class Player implements Comparable<Player> {
          */
         // Useful one
         return this.playerName + ": " + this.avgScore;
-    }
-
-    @Override
-    public int compareTo(Player o) {
-        return -Integer.compare(this.avgScore, o.avgScore);
     }
 }

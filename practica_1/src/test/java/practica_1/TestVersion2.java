@@ -30,8 +30,6 @@ public class TestVersion2 {
     public void testScore() {
         Players.readFile("test.csv");
         ArrayList<Player> players = Players.allPlayers;
-        // 48,4*612/100
-        // 48,3*597/100
         int score1 = (int) (48.4 * 612 / 100);
         int score2 = (int) (48.3 * 597 / 100);
         int score3 = (int) (47.7 * 153 / 100);

@@ -37,9 +37,8 @@ public class Players {
     }
 
     public static void readFile(String fileName) {
-        route += fileName;
 
-        File f = new File(route);
+        File f = new File(route + fileName);
         Scanner sc;
         try {
             sc = new Scanner(f);
@@ -114,7 +113,7 @@ public class Players {
 
     public static ArrayList<Player> getPlayersByComparator(int begin, int end, Comparator<Player> cmp) {
         ArrayList<Player> players = new ArrayList<Player>(allPlayers.size());
-        if (cmp == null) {
+        if (cmp == null) { // por defecto se ordena por puntuación
             cmp = new PlayerComparator();
         }
         if (begin >= end) { // Caso base
@@ -144,7 +143,6 @@ public class Players {
                 players.add(right.get(j));
                 j++;
             }
-
         }
         return players;
     }
