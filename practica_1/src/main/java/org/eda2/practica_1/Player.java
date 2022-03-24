@@ -1,4 +1,4 @@
-package practica_1;
+package org.eda2.practica_1;
 
 import java.util.ArrayList;
 
@@ -8,7 +8,6 @@ public class Player implements Comparable<Player> {
     private ArrayList<String> positions;
     private int avgScore;
     private int totalScore;
-    // private int count = 1; // it's the same as the size of temas or positions
 
     public Player(String playerName, String team, String position, int newScore) {
         this.playerName = playerName;
@@ -73,23 +72,7 @@ public class Player implements Comparable<Player> {
 
     @Override
     public String toString() {
-        // Beautiful one
-        /*
-         * StringBuilder sb = new StringBuilder(playerName + " played in ");
-         * for (String team : this.teams) {
-         * sb.append(team + ", ");
-         * }
-         * sb.replace(0, sb.length() - 2, " in these positions: ");
-         * 
-         * for (String position : this.positions) {
-         * sb.append(position + ", ");
-         * }
-         * 
-         * return sb.replace(0, sb.length() - 2,
-         * ", obtaining in his carreer a total score of " + this.score + ".")
-         * .toString();
-         */
-        // Useful one
         return this.playerName + ": " + this.avgScore;
     }
+
 }

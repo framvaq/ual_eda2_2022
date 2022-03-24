@@ -6,9 +6,16 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Launch App",
+      "request": "launch",
+      "mainClass": "org.eda2.practica_1.App",
+      "projectName": "practica_1"
+    },
+    {
+      "type": "java",
       "name": "Launch Players",
       "request": "launch",
-      "mainClass": "practica_1.Players",
+      "mainClass": "org.eda2.practica_1.Players",
       "projectName": "practica_1"
     },
     {
@@ -16,13 +23,6 @@
       "name": "Launch Current File",
       "request": "launch",
       "mainClass": "${file}"
-    },
-    {
-      "type": "java",
-      "name": "Launch App",
-      "request": "launch",
-      "mainClass": "practica_1.App",
-      "projectName": "practica_1"
     }
   ]
 }
