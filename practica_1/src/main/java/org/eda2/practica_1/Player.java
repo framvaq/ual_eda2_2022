@@ -19,6 +19,14 @@ public class Player implements Comparable<Player> {
         this.avgScore = newScore;
     }
 
+    public Player(Player p) {
+        this.playerName = p.playerName;
+        this.teams = p.teams;
+        this.positions = p.positions;
+        this.totalScore = p.totalScore;
+        this.avgScore = p.avgScore;
+    }
+
     public void update(String team, String position, int newScore) {
         // this.count++;
         this.teams.add(team);
@@ -31,32 +39,16 @@ public class Player implements Comparable<Player> {
         return this.playerName;
     }
 
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
-    }
-
     public ArrayList<String> getTeams() {
         return this.teams;
-    }
-
-    public void setTeams(ArrayList<String> teams) {
-        this.teams = teams;
     }
 
     public ArrayList<String> getPositions() {
         return this.positions;
     }
 
-    public void setPositions(ArrayList<String> positions) {
-        this.positions = positions;
-    }
-
     public int getScore() {
         return this.avgScore;
-    }
-
-    public void setScore(int score) {
-        this.avgScore = score;
     }
 
     @Override

@@ -7,10 +7,9 @@ import java.util.Comparator;
 import java.util.Scanner;
 
 public class Players {
-    private Scanner sc = new Scanner(System.in);
     private ArrayList<Player> allPlayers;
-    private ArrayList<Player> bestPlayers;
-    private ArrayList<Comparator<Player>> comparators;
+
+    private static ArrayList<Comparator<Player>> comparators = new ArrayList<>();
     public static final String route = System.getProperty("user.dir") + System.getProperty("file.separator")
             + "practica_1" + System.getProperty("file.separator") + "docs" + System.getProperty("file.separator");
     private int numPlayers = 10;
@@ -20,6 +19,8 @@ public class Players {
     }
 
     public Players(String fileName) {
+        addComparators();
+
         File f = new File(route + fileName);
         Scanner sc;
         try {
@@ -47,6 +48,16 @@ public class Players {
         }
     }
 
+    public int getSize() {
+        return this.allPlayers.size();
+    }
+
+    private static void addComparators() {
+        comparators.add(0, new PlayerDefComparator());
+        comparators.add(1, new PlayerNameComparator());
+        comparators.add(2, new PlayerNumberTeamsComparator());
+    }
+
     private static int calculateScore(String[] items) {
         int score;
         int pts = Integer.parseInt(items[8]);
@@ -61,22 +72,65 @@ public class Players {
         return score;
     }
 
-    public void getBestPlayers() {
-        // getBestPlayers(this.numPlayers, null);
-        System.out.println("getBestPlayers()");
+    public ArrayList<Player> getBestPlayers() {
+        return getBestPlayers(this.numPlayers, null);
     }
 
-    public void getBestPlayers(int num) {
-        // getBestPlayers(num, null);
-        System.out.println("getBestPlayers(num)");
+    public ArrayList<Player> getBestPlayers(int num) {
+        return getBestPlayers(num, null);
     }
 
-    public void getBestPlayers(Comparator<Player> comp) {
-        // getBestPlayers(this.numPlayers, comp);
-        System.out.println("getBestPlayers(comp)");
+    public ArrayList<Player> getBestPlayers(Comparator<Player> comp) {
+        return getBestPlayers(this.numPlayers, comp);
     }
 
-    public void getBestPlayers(int num, Comparator<Player> comp) {
-        System.out.println("getBestPlayers(num, comp)");
+    public ArrayList<Player> getBestPlayers(int num, Comparator<Player> comp) {
+        num = num <= 0 ? allPlayers.size() - 1 : num;
+        comp = comp == null ? comparators.get(0) : comp;
+
+        ArrayList<Player> result = getBestPlayers(0, this.allPlayers.size() - 1, num, comp);
+        return new ArrayList<Player>(result.subList(0, num));
     }
+
+    private ArrayList<Player> getBestPlayers(int begin, int end, int num, Comparator<Player> comp) {
+        ArrayList<Player> solution = new ArrayList<>(num);
+        // Caso base
+        if (begin == end) {
+            solution.add(allPlayers.get(begin));
+            return solution;
+        }
+
+        // Dividir
+        int mid = (begin + end) / 2;
+
+        // Llamadas recursivas
+        ArrayList<Player> left = getBestPlayers(begin, mid, num, comp);
+        ArrayList<Player> right = getBestPlayers(mid + 1, end, num, comp);
+
+        // Combinar es ordenar izquierda y derecha
+        int i = 0;
+        int j = 0;
+        while (solution.size() < num && i < left.size() && j < right.size()) {
+            if (comp.compare(left.get(i), right.get(j)) < 0) {
+                solution.add(left.get(i));
+                i++;
+            } else {
+                solution.add(right.get(j));
+                j++;
+            }
+        }
+
+        // Completo si solution tiene menos elementos de los requeridos
+        while (solution.size() < num && i < left.size()) {
+            solution.add(left.get(i));
+            i++;
+        }
+        while (solution.size() < num && j < right.size()) {
+            solution.add(right.get(j));
+            j++;
+        }
+
+        return solution;
+    }
+
 }
