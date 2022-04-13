@@ -13,12 +13,12 @@ public class App {
             "# ANÁLISIS DE JUGADORES DE LA NBA #\n" +
             "###################################\n" +
             "Elige una opción:\n" +
-            "\t1.- Obtener los 10 mejores con la ordenación por defecto\n" +
-            "\t2.- Elegir el número de jugadores a obtener con la ordenación por defecto.\n" +
-            "\t3.- Obtener los 10 mejores según un criterio de ordenación.\n" +
-            "\t4.- Elegir tanto el número de jugadores como el método de ordenación.\n" +
-            "\t5.- Análisis de eficiencia.\n" +
-            "\t0.- Salir";
+            "    1.- Obtener los 10 mejores con la ordenación por defecto\n" +
+            "    2.- Elegir el número de jugadores a obtener con la ordenación por defecto.\n" +
+            "    3.- Obtener los 10 mejores según un criterio de ordenación.\n" +
+            "    4.- Elegir tanto el número de jugadores como el método de ordenación.\n" +
+            "    5.- Análisis de eficiencia.\n" +
+            "    0.- Salir";
     private static final String NUM_PLAYERS_MENU = "## Elegir número de jugadores\n" +
             " -> 0 para obtener todos los jugadores\n" +
             " -> -1 para salir\n" +
@@ -45,23 +45,43 @@ public class App {
             switch (input) {
                 case 1:
                     bests = p.getBestPlayers();
+                    System.out.println("Mejores 10 jugadores según la ordenación por defecto");
                     break;
                 case 2:
                     numPlayersMenu();
-                    bests = p.getBestPlayers(numPlayers);
+                    if (input != -1) {
+                        bests = p.getBestPlayers(numPlayers);
+                        System.out.println("Mejores " + numPlayers + " jugadores según la ordenación por defecto");
+                    } else {
+                        print = false;
+                    }
                     break;
                 case 3:
                     c = comparatorMenu();
 
-                    System.out.println(c.getClass().getSimpleName());
-                    bests = p.getBestPlayers(c);
+                    if (input != -1) {
+                        String compName = c == null ? "Por defecto" : c.getClass().getSimpleName();
+                        System.out.println("Mejores jugadores ordenados por " + compName);
+                        bests = p.getBestPlayers(c);
+                    } else {
+                        print = false;
+                    }
                     break;
                 case 4:
                     numPlayersMenu();
+                    if (input == -1) {
+                        print = false;
+                        break;
+                    }
                     c = comparatorMenu();
 
-                    System.out.println(c.getClass().getSimpleName());
-                    bests = p.getBestPlayers(numPlayers, c);
+                    if (input != -1) {
+                        String compName = c == null ? "Por defecto" : c.getClass().getSimpleName();
+                        System.out.println("Mejores " + numPlayers + " según el criterio: " + compName);
+                        bests = p.getBestPlayers(numPlayers, c);
+                    } else {
+                        print = false;
+                    }
                     break;
                 case 5:
                     analisisDeEficiencia(p);
@@ -74,7 +94,11 @@ public class App {
             }
 
             if (print) {
-                System.out.println(bests);
+                int cont = 1;
+                for (Player player : bests) {
+                    System.out.println("    " + cont + ": " + player);
+                    cont++;
+                }
             }
         } while (!exitMenu);
         System.out.println("Adiós.");
@@ -117,7 +141,11 @@ public class App {
         do {
             input = selectOption();
         } while (!exitMenu && errors < 2);
-        numPlayers = input;
+        if (input == -1) {
+            exitMenu = false;
+        } else {
+            numPlayers = input;
+        }
         // return numPlayers;
     }
 
@@ -143,7 +171,11 @@ public class App {
 
         } while (!exitMenu);
 
-        c = pos == 0 ? null : comparators.get(pos - 1);
+        if (input < 0) {
+            exitMenu = false;
+            return null;
+        }
+        c = pos < 1 ? null : comparators.get(pos - 1);
         return c;
     }
 
