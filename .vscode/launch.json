@@ -8,6 +8,14 @@
       "type": "java",
       "name": "Launch App",
       "request": "launch",
+      "mainClass": "practica_2.App",
+      "projectName": "practica_2",
+      "args": "-Xmx1G"
+    },
+    {
+      "type": "java",
+      "name": "Launch App",
+      "request": "launch",
       "mainClass": "org.eda2.practica_1.App",
       "projectName": "practica_1"
     },
@@ -22,7 +30,8 @@
       "type": "java",
       "name": "Launch Current File",
       "request": "launch",
-      "mainClass": "${file}"
+      "mainClass": "${file}",
+      "args": "-Xmx1G"
     }
   ]
 }
